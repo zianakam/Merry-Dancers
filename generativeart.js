@@ -25,13 +25,24 @@ function setup() {
     for (var j = 2; j < width; j+=5) {
         extX = spinePts[j].x;
         extY = spinePts[j].y;
-        var maxHeight = random(0, spinePts[j].y);
+        var maxHeight = random(5, spinePts[j].y);
         for (var y = extY; y > maxHeight; y--) {
             var p = createVector(extX, extY);
             extY--;
             extensionPts.push(p);
         }
     }
+
+    for (var k = 2; k < width; k+=5) {
+        extX = spinePts[k].x;
+        extY = spinePts[k].y;
+        var maxHeight = random(spinePts[k].y, height-5);
+        for (var y = extY; y < maxHeight; y++) {
+            var p = createVector(extX, extY);
+            extY++;
+            extensionPts.push(p);
+        }
+     }
 }
 
 //Called directly after setup(), the draw() function continuously
