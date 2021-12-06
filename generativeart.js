@@ -1,9 +1,6 @@
 var spineX;
 var spineY;
 var spinePts = [];
-var extX;
-var extY;
-var extensionPts = [];
 
 //Called once when the prog starts
 function setup() {
@@ -39,9 +36,5 @@ var draw = function() {
 
     for (var i = 0; i < spinePts.length; i++) {
         ellipse(spinePts[i].x, spinePts[i].y, 1);
-    }
-
-    for (var j = 0; j < extensionPts.length; j++) {
-        ellipse(extensionPts[j].x, extensionPts[j].y, 1);
     }
 };
