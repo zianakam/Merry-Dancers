@@ -22,27 +22,13 @@ function setup() {
         spinePts.push(p);
     }
 
+    let val = 0;
+    let inc = TWO_PI / 50;
     for (var j = 2; j < width; j+=5) {
-        extX = spinePts[j].x;
-        extY = spinePts[j].y;
-        var maxHeight = random(5, spinePts[j].y);
-        for (var y = extY; y > maxHeight; y--) {
-            var p = createVector(extX, extY);
-            extY--;
-            extensionPts.push(p);
-        }
+        stroke('white');
+        line(spinePts[j].x, spinePts[j].y, spinePts[j].x, spinePts[j].y + sin(val) * 20); //
+        val += inc;
     }
-
-    for (var k = 2; k < width; k+=5) {
-        extX = spinePts[k].x;
-        extY = spinePts[k].y;
-        var maxHeight = random(spinePts[k].y, height-5);
-        for (var y = extY; y < maxHeight; y++) {
-            var p = createVector(extX, extY);
-            extY++;
-            extensionPts.push(p);
-        }
-     }
 }
 
 //Called directly after setup(), the draw() function continuously
