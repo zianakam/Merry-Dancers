@@ -1,6 +1,10 @@
 var spineX;
 var spineY;
 var spinePts = [];
+var k = 0;
+var j = 2;
+var val = 0;
+var inc;
 
 //Called once when the prog starts
 function setup() {
@@ -18,14 +22,6 @@ function setup() {
         var p = createVector(spineX, spineY);
         spinePts.push(p);
     }
-
-    let val = 0;
-    let inc = TWO_PI / 50;
-    for (var j = 2; j < width; j+=5) {
-        stroke('white');
-        line(spinePts[j].x, spinePts[j].y, spinePts[j].x, spinePts[j].y + sin(val) * 20); //
-        val += inc;
-    }
 }
 
 //Called directly after setup(), the draw() function continuously
@@ -34,7 +30,17 @@ function setup() {
 var draw = function() {
     noStroke();
 
-    for (var i = 0; i < spinePts.length; i++) {
-        ellipse(spinePts[i].x, spinePts[i].y, 1);
+    if (k <= width && k >= 0) {
+        ellipse(spinePts[k].x, spinePts[k].y, 1);
+        k++;
+    }
+
+    inc = TWO_PI / 50;
+
+    if (j == spinePts[k].x) {
+        stroke('white');
+        line(spinePts[j].x, spinePts[j].y, spinePts[j].x, spinePts[j].y + sin(val) * 20);
+        val += inc;
+        j+=5;
     }
 };
