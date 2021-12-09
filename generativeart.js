@@ -5,14 +5,12 @@ var val = 0;
 var inc;
 var arc;
 
-//Line not starting in mid anymore? Something to do w/var vs let?
-
 //Called once when the prog starts
 function setup() {
     createCanvas(windowWidth, windowHeight);
     background('#222222');
 
-    let frequency = randomGaussian(55, 20);
+    let frequency = randomGaussian(60, 10);
     inc = TWO_PI / frequency;
     arc = randomGaussian(40, 15);
 
