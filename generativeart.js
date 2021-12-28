@@ -1,12 +1,12 @@
+//Linework
 var spinePts = [];
 var k = 0;
 var j = 2;
 var val = 0;
 var inc;
-var arc;
-var r;
-var g;
-var b;
+var waveHeight;
+//Colour
+var r1, g1, b1, r2, g2, b2;
 
 //TODO: Add colour
 //TODO: Add possibility of multiple lines
@@ -20,10 +20,13 @@ function setup() {
 
     let frequency = randomGaussian(60, 10);
     inc = TWO_PI / frequency;
-    arc = randomGaussian(40, 15);
-    r = random(255);
-    g = random(255);
-    b = random(255);
+    waveHeight = randomGaussian(40, 15);
+    r1 = random(255);
+    g1 = random(255);
+    b1 = random(255);
+    r2 = random(255);
+    g2 = random(255);
+    b2 = random(255);
 
     spinePts.generatePoints();
 }
@@ -42,8 +45,10 @@ var draw = function() {
     }
 
     if (j == spinePts[k].x) {
-        stroke(r, g, b);
-        line(spinePts[j].x, spinePts[j].y, spinePts[j].x, spinePts[j].y + sin(val) * arc);
+        //interpolate old rgb to new rgb
+        let inter = lerpColor(color(r1, g1, b1, 150), color(r2, g2, b2, 150), 0.10);
+        stroke(inter);
+        line(spinePts[j].x, spinePts[j].y, spinePts[j].x, spinePts[j].y + sin(val) * waveHeight);
         val += inc;
         j+=5;
     }
@@ -58,11 +63,11 @@ spinePts.generatePoints = function() {
     let ty = 5000;
 
     while (spineX <= width && spineY >= 0 && spineX >= 0 && spineY <= height) {
-        fill(r, g, b);
+        fill(r1, g1, b1, 150);
         spineX++;
         spineY = map(noise(ty), 0, 1, 0, height);
         ty += 0.002;
-        var p = createVector(spineX, spineY);
+        let p = createVector(spineX, spineY);
         spinePts.push(p);
     }
 }
