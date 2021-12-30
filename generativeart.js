@@ -1,14 +1,15 @@
-//Linework
+//Line work
 var spinePts = [];
-var k = 0;
-var j = 2;
-var val = 0;
+var k, j;
+var val;
 var inc;
 var waveHeight;
 //Colour
-var h1, s1, l1, h2, s2, l2, alpha = 0;
+var h1, s1, l1, a;
+//Other Lines
+var newLine;
+var spinePts2 = [];
 
-//TODO: Add gradient
 //TODO: Add possibility of multiple lines
 
 /**
@@ -18,23 +19,10 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
     background('#222222');
 
-    let frequency = randomGaussian(60, 10);
-    inc = TWO_PI / frequency;
-    //if (windowWidth < ) { <= 2000 then keep height & freq otherwise
-        waveHeight = randomGaussian(40, 15);
-    //} else { higher height, less frequency
-
-    //}
-
-    colorMode(HSL);
-    h1 = random(359);
-    s1 = random(100);
-    l1 = random(90);
-    h2 = random(359);
-    s2 = random(100);
-    l2 = random(90);
-
-    generatePoints();
+    setLineWorkValues();
+    generatePoints(spinePts);
+    newLine = true;
+    draw();
 }
 
 /**
@@ -47,24 +35,55 @@ var draw = function() {
     generateColour();
 
     if (k < spinePts.length) {
-        fill(h1, s1, l1, alpha);
+        fill(h1, s1, l1, a);
         ellipse(spinePts[k].x, spinePts[k].y, 1);
         k++;
     }
 
     if (j == spinePts[k].x) {
-        stroke(h1, s1, l1, alpha);
+        stroke(h1, s1, l1, a);
         line(spinePts[j].x, spinePts[j].y, spinePts[j].x, spinePts[j].y + sin(val) * waveHeight);
         val += inc;
         j+=5;
         h1++;
     }
+
+    /**
+    if (spinePts[k].x == width && newLine == true) {
+        newLine = false;
+    }**/
 };
+
+/**
+ * Set initial values for linework.
+ */
+setLineWorkValues = function() {
+    let frequency;
+
+    if (windowWidth <= 2000 ) { //<= 2000 then keep height & freq otherwise
+        waveHeight = randomGaussian(40, 15);
+        frequency = randomGaussian(60, 10);
+    } else { //higher height, less frequency
+        waveHeight = randomGaussian(60, 15);
+        frequency = randomGaussian(40, 10);
+    }
+
+    inc = TWO_PI / frequency;
+    k = 0;
+    j = 2;
+    val = 0;
+
+    colorMode(HSL);
+    h1 = random(359);
+    s1 = random(100);
+    l1 = random(90);
+    a = 0;
+}
 
 /**
  * Generate points of the spine using perlin noise.
  */
-generatePoints = function() {
+generatePoints = function(spinePts) {
     let spineX = 0;
     let spineY = random(0, height);
     let ty = 5000;
@@ -86,10 +105,11 @@ generateColour = function() {
     let dist2 = dist(width, height/2, spinePts[k].x, spinePts[k].y);
 
     if (dist1 < dist2) {
-        alpha = map(dist1, 0, width, 0.3, 1);
+        a = map(dist1, 0, width, 0.3, 1);
         s1 = map(dist1, 0, width, 50, 100);
     } else {
-        alpha = map(dist2, 0, width, 0.3, 1);
+        a = map(dist2, 0, width, 0.3, 1);
         s1 = map(dist1, 0, width, 50, 100);
     }
 }
+
