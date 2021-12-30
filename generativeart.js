@@ -20,7 +20,12 @@ function setup() {
 
     let frequency = randomGaussian(60, 10);
     inc = TWO_PI / frequency;
-    waveHeight = randomGaussian(40, 15);
+    //if (windowWidth < ) {
+        waveHeight = randomGaussian(40, 15);
+    //} else {
+
+    //}
+
 
     colorMode(HSL);
     h1 = random(359);
@@ -83,9 +88,11 @@ generateAlpha = function() {
     let dist2 = dist(width, height/2, spinePts[k].x, spinePts[k].y);
 
     if (dist1 < dist2) {
-        alpha = map(dist(0, height/2, spinePts[k].x, spinePts[k].y), 0, width, 0, 1);
+        alpha = map(dist(0, height/2, spinePts[k].x, spinePts[k].y), 0, width, 0.3, 1);
+        h1 = map(dist(0, height/2, spinePts[k].x, spinePts[k].y), 0, width, 0, 359);
     } else {
-        alpha = map(dist(width, height/2, spinePts[k].x, spinePts[k].y), 0, width, 0, 1);
+        alpha = map(dist(width, height/2, spinePts[k].x, spinePts[k].y), 0, width, 0.3, 1);
+        h1 = map(dist(width, height/2, spinePts[k].x, spinePts[k].y), 0, width, 0, 359);
     }
 
     return alpha;
