@@ -6,7 +6,7 @@ var val = 0;
 var inc;
 var waveHeight;
 //Colour
-var h1, s1, l1, h2, s2, l2;
+var h1, s1, l1, h2, s2, l2, alpha = 0;
 
 //TODO: Add gradient
 //TODO: Add possibility of multiple lines
@@ -20,12 +20,11 @@ function setup() {
 
     let frequency = randomGaussian(60, 10);
     inc = TWO_PI / frequency;
-    //if (windowWidth < ) {
+    //if (windowWidth < ) { <= 2000 then keep height & freq otherwise
         waveHeight = randomGaussian(40, 15);
-    //} else {
+    //} else { higher height, less frequency
 
     //}
-
 
     colorMode(HSL);
     h1 = random(359);
@@ -45,7 +44,7 @@ function setup() {
  */
 var draw = function() {
     noStroke();
-    let alpha = generateAlpha();
+    generateColour();
 
     if (k < spinePts.length) {
         fill(h1, s1, l1, alpha);
@@ -79,21 +78,17 @@ generatePoints = function() {
 }
 
 /**
- * Calculates alpha value based on distance from edges of screen
- * @returns alpha value
+ * Calculates colour values based on distance from edges of screen.
  */
-generateAlpha = function() {
-    let alpha;
+generateColour = function() {
     let dist1 = dist(0, height/2, spinePts[k].x, spinePts[k].y);
     let dist2 = dist(width, height/2, spinePts[k].x, spinePts[k].y);
 
     if (dist1 < dist2) {
-        alpha = map(dist(0, height/2, spinePts[k].x, spinePts[k].y), 0, width, 0.3, 1);
-        h1 = map(dist(0, height/2, spinePts[k].x, spinePts[k].y), 0, width, 0, 359);
+        alpha = map(dist1, 0, width, 0.3, 1);
+        h1 = map(dist1, 0, width, 0, 359);
     } else {
-        alpha = map(dist(width, height/2, spinePts[k].x, spinePts[k].y), 0, width, 0.3, 1);
-        h1 = map(dist(width, height/2, spinePts[k].x, spinePts[k].y), 0, width, 0, 359);
+        alpha = map(dist2, 0, width, 0.3, 1);
+        h1 = map(dist2, 0, width, 0, 359);
     }
-
-    return alpha;
 }
