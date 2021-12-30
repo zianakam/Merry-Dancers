@@ -6,9 +6,9 @@ var val = 0;
 var inc;
 var waveHeight;
 //Colour
-var r1, g1, b1, r2, g2, b2;
+var h1, s1, l1, h2, s2, l2;
 
-//TODO: Add colour
+//TODO: Add gradient
 //TODO: Add possibility of multiple lines
 
 /**
@@ -21,14 +21,16 @@ function setup() {
     let frequency = randomGaussian(60, 10);
     inc = TWO_PI / frequency;
     waveHeight = randomGaussian(40, 15);
-    r1 = random(255);
-    g1 = random(255);
-    b1 = random(255);
-    r2 = random(255);
-    g2 = random(255);
-    b2 = random(255);
 
-    spinePts.generatePoints();
+    colorMode(HSL);
+    h1 = random(359);
+    s1 = random(100);
+    l1 = random(90);
+    h2 = random(359);
+    s2 = random(100);
+    l2 = random(90);
+
+    generatePoints();
 }
 
 /**
@@ -38,16 +40,16 @@ function setup() {
  */
 var draw = function() {
     noStroke();
+    let alpha = generateAlpha();
 
-    if (k <= width && k >= 0) {
+    if (k < spinePts.length) {
+        fill(h1, s1, l1, alpha);
         ellipse(spinePts[k].x, spinePts[k].y, 1);
         k++;
     }
 
     if (j == spinePts[k].x) {
-        //interpolate old rgb to new rgb
-        let inter = lerpColor(color(r1, g1, b1, 150), color(r2, g2, b2, 150), 0.10);
-        stroke(inter);
+        stroke(h1, s1, l1, alpha);
         line(spinePts[j].x, spinePts[j].y, spinePts[j].x, spinePts[j].y + sin(val) * waveHeight);
         val += inc;
         j+=5;
@@ -57,17 +59,34 @@ var draw = function() {
 /**
  * Generate points of the spine using perlin noise.
  */
-spinePts.generatePoints = function() {
+generatePoints = function() {
     let spineX = 0;
-    let spineY = height / 2;
+    let spineY = random(0, height);
     let ty = 5000;
 
     while (spineX <= width && spineY >= 0 && spineX >= 0 && spineY <= height) {
-        fill(r1, g1, b1, 150);
         spineX++;
         spineY = map(noise(ty), 0, 1, 0, height);
         ty += 0.002;
         let p = createVector(spineX, spineY);
         spinePts.push(p);
     }
+}
+
+/**
+ * Calculates alpha value based on distance from edges of screen
+ * @returns alpha value
+ */
+generateAlpha = function() {
+    let alpha;
+    let dist1 = dist(0, height/2, spinePts[k].x, spinePts[k].y);
+    let dist2 = dist(width, height/2, spinePts[k].x, spinePts[k].y);
+
+    if (dist1 < dist2) {
+        alpha = map(dist(0, height/2, spinePts[k].x, spinePts[k].y), 0, width, 0, 1);
+    } else {
+        alpha = map(dist(width, height/2, spinePts[k].x, spinePts[k].y), 0, width, 0, 1);
+    }
+
+    return alpha;
 }
