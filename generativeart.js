@@ -57,6 +57,7 @@ var draw = function() {
         line(spinePts[j].x, spinePts[j].y, spinePts[j].x, spinePts[j].y + sin(val) * waveHeight);
         val += inc;
         j+=5;
+        h1++;
     }
 };
 
@@ -86,9 +87,9 @@ generateColour = function() {
 
     if (dist1 < dist2) {
         alpha = map(dist1, 0, width, 0.3, 1);
-        h1 = map(dist1, 0, width, 0, 359);
+        s1 = map(dist1, 0, width, 50, 100);
     } else {
         alpha = map(dist2, 0, width, 0.3, 1);
-        h1 = map(dist2, 0, width, 0, 359);
+        s1 = map(dist1, 0, width, 50, 100);
     }
 }
