@@ -22,7 +22,7 @@ function setup() {
     setLineWorkValues();
     generatePoints(spinePts);
     newLine = true;
-    draw();
+    draw.apply(null, spinePts);
 }
 
 /**
@@ -48,22 +48,24 @@ var draw = function() {
         h1++;
     }
 
-    /**
     if (spinePts[k].x == width && newLine == true) {
+        setLineWorkValues();
+        generatePoints.apply(null, spinePts2);
         newLine = false;
-    }**/
+        draw.apply(null, spinePts2);
+    }
 };
 
 /**
- * Set initial values for linework.
+ * Set initial values for line work.
  */
 setLineWorkValues = function() {
     let frequency;
 
-    if (windowWidth <= 2000 ) { //<= 2000 then keep height & freq otherwise
+    if (windowWidth <= 2000 ) { 
         waveHeight = randomGaussian(40, 15);
         frequency = randomGaussian(60, 10);
-    } else { //higher height, less frequency
+    } else {
         waveHeight = randomGaussian(60, 15);
         frequency = randomGaussian(40, 10);
     }
@@ -83,7 +85,7 @@ setLineWorkValues = function() {
 /**
  * Generate points of the spine using perlin noise.
  */
-generatePoints = function(spinePts) {
+generatePoints = function() {
     let spineX = 0;
     let spineY = random(0, height);
     let ty = 5000;
