@@ -5,12 +5,10 @@ var val;
 var inc;
 var waveHeight;
 //Colour
-var h1, s1, l1, a;
+var h, s, l, a;
 //Other Lines
 var newLine;
-var spinePts2 = [];
 
-//TODO: Add possibility of multiple lines
 
 /**
  * Called at beginning of the program.
@@ -20,9 +18,8 @@ function setup() {
     background('#222222');
 
     setLineWorkValues();
-    generatePoints(spinePts);
+    generatePoints();
     newLine = true;
-    draw.apply(null, spinePts);
 }
 
 /**
@@ -35,24 +32,22 @@ var draw = function() {
     generateColour();
 
     if (k < spinePts.length) {
-        fill(h1, s1, l1, a);
+        fill(h, s, l, a);
         ellipse(spinePts[k].x, spinePts[k].y, 1);
         k++;
     }
 
     if (j == spinePts[k].x) {
-        stroke(h1, s1, l1, a);
+        stroke(h, s, l, a);
         line(spinePts[j].x, spinePts[j].y, spinePts[j].x, spinePts[j].y + sin(val) * waveHeight);
         val += inc;
         j+=5;
-        h1++;
+        h++;
     }
 
     if (spinePts[k].x == width && newLine == true) {
         setLineWorkValues();
-        generatePoints.apply(null, spinePts2);
         newLine = false;
-        draw.apply(null, spinePts2);
     }
 };
 
@@ -60,15 +55,8 @@ var draw = function() {
  * Set initial values for line work.
  */
 setLineWorkValues = function() {
-    let frequency;
-
-    if (windowWidth <= 2000 ) { 
-        waveHeight = randomGaussian(40, 15);
-        frequency = randomGaussian(60, 10);
-    } else {
-        waveHeight = randomGaussian(60, 15);
-        frequency = randomGaussian(40, 10);
-    }
+    let frequency = randomGaussian(60, 10);
+    waveHeight = randomGaussian(40, 15);
 
     inc = TWO_PI / frequency;
     k = 0;
@@ -76,9 +64,9 @@ setLineWorkValues = function() {
     val = 0;
 
     colorMode(HSL);
-    h1 = random(359);
-    s1 = random(100);
-    l1 = random(90);
+    h = random(359);
+    s = random(100);
+    l = random(90);
     a = 0;
 }
 
@@ -108,10 +96,10 @@ generateColour = function() {
 
     if (dist1 < dist2) {
         a = map(dist1, 0, width, 0.3, 1);
-        s1 = map(dist1, 0, width, 50, 100);
+        s = map(dist1, 0, width, 50, 100);
     } else {
         a = map(dist2, 0, width, 0.3, 1);
-        s1 = map(dist1, 0, width, 50, 100);
+        s = map(dist1, 0, width, 50, 100);
     }
 }
 
